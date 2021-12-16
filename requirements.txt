@@ -1,0 +1,4 @@
+fastapi~=0.70.1
+starlette~=0.16.0
+requests~=2.26.0
+setuptools~=57.0.0

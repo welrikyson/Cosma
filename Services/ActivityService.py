@@ -8,6 +8,7 @@ from authentication.token import Token
 
 def get_in_today(token: Token):
     last_time: datetime.datetime = Globals.get_last_activity_date_notify()
+
     start_day: float
     if last_time is None:
         now_time = datetime.datetime.now()

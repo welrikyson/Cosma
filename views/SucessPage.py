@@ -43,11 +43,16 @@ def success_page(total_items_success: int):
       <div class="card">
       <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
         <i class="checkmark">✓</i>
-      </div>
-        <h1>Success</h1>
-        <p>{total_items_success} Success reported;<br/> we'll be in touch shortly!</p>
+      </div>      
+        <h1>{message(total_items_success)}</h1>        
       </div>
     </body>
 </html>
 """
 
+
+def message(total_resul: int):
+    if total_resul > 0:
+        return f"{total_resul} activities send"
+    else:
+        return "No activities for sync"

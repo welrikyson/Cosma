@@ -1,16 +1,16 @@
 import datetime
 import webbrowser
 
-from Globals import Globals
 from NotifyActivity import notify_activity
-from Services import TokenService, ActivityService
+from Services import ActivityService, TokenService
 from typing import Optional
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, responses
 from fastapi.responses import HTMLResponse
 from starlette.responses import RedirectResponse
 
 from authentication.token import load_token, save_token
-from views import SucessPage
+from Globals import Globals
+from views import SucessPage, loading
 
 app = FastAPI()
 
@@ -39,15 +39,20 @@ async def root():
                 "approval_prompt=force&"
                 "scope=activity:read")
     else:
-        total_activities_sync = init_notification()
-        return SucessPage.success_page(total_activities_sync)
-        
+        return loading.loading_page()
+
+
+@app.get("/notify")
+async def notify():
+    total_activities_sync = init_notification()
+    return total_activities_sync
+
 
 @app.get("/auth", response_class=HTMLResponse)
 async def root(code: Optional[str] = Query(None)):
     token = TokenService.get_token(code)
     save_token(token)
-
     return RedirectResponse("http://localhost:8000")
+
 
 webbrowser.open("http://localhost:8000")

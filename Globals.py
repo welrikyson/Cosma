@@ -1,5 +1,3 @@
-import datetime
-
 from Utils.FileStorege import FileStore
 
 filename = "globals.pickle"
