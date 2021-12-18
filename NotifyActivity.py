@@ -1,10 +1,8 @@
-import datetime
-
 import requests
 
 
 def notify_activity(activity):
-    moving_time  = activity["moving_time"]
+    moving_time = activity["moving_time"]
     seconds = moving_time % (24 * 3600)
     hour = seconds // 3600
     seconds %= 3600
@@ -20,5 +18,4 @@ def notify_activity(activity):
         "entry.885711731_minute": minutes,
         "entry.885711731_second": seconds,
     }
-    response = requests.get(url=url, params=params)
-    print(response)
+    return requests.get(url=url, params=params)

@@ -5,12 +5,9 @@ from NotifyActivity import notify_activity
 from Services import ActivityService, TokenService
 from typing import Optional
 from fastapi import FastAPI, Query, responses
-from fastapi.responses import HTMLResponse
-from starlette.responses import RedirectResponse
 
 from authentication.token import load_token, save_token
 from Globals import Globals
-from views import SucessPage, loading
 
 app = FastAPI()
 
@@ -28,18 +25,20 @@ def init_notification():
     return total
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/", response_class=responses.HTMLResponse)
 async def root():
     token = load_token()
     if token is None:
-        return RedirectResponse(
+        return responses.RedirectResponse(
             url="https://www.strava.com/oauth/authorize?"
                 "client_id=75467&response_type=code&"
                 "redirect_uri=http://localhost:8000/auth&"
                 "approval_prompt=force&"
                 "scope=activity:read")
     else:
-        return loading.loading_page()
+        with open(".\\views\\home.html", "r", encoding='utf-8') as f:
+            home_html = f.read()
+        return home_html
 
 
 @app.get("/notify")
@@ -48,11 +47,11 @@ async def notify():
     return total_activities_sync
 
 
-@app.get("/auth", response_class=HTMLResponse)
+@app.get("/auth", response_class=responses.HTMLResponse)
 async def root(code: Optional[str] = Query(None)):
     token = TokenService.get_token(code)
     save_token(token)
-    return RedirectResponse("http://localhost:8000")
+    return responses.RedirectResponse("http://localhost:8000")
 
 
 webbrowser.open("http://localhost:8000")

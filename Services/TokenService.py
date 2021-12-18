@@ -4,16 +4,20 @@ import requests
 
 from authentication.token import Token
 
+url = "https://www.strava.com/api/v3/oauth/token"
+
 
 def get_token(code):
-    url = "https://www.strava.com/api/v3/oauth/token"
+
     params = {
         'client_id': "75467",
         "client_secret": "e811ea22ccbf0ac2e39211de1f9e85b1e6960b24",
         "code": code,
         "grant_type": "authorization_code"
     }
+
     response = requests.post(url=url, params=params)
+
     response_json = response.json()
     print(response_json)
     token = Token()
@@ -25,8 +29,7 @@ def get_token(code):
     return token
 
 
-def refresh_token(token : Token):
-    url = "https://www.strava.com/api/v3/oauth/token"
+def refresh_token(token: Token):
     params = {
         'client_id': "75467",
         "client_secret": "e811ea22ccbf0ac2e39211de1f9e85b1e6960b24",
