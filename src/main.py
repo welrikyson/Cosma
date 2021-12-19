@@ -1,7 +1,7 @@
 import datetime
 import webbrowser
 
-from NotifyActivity import notify_activity
+from notify_activity import notify_activity
 from services import activity_service, token_service
 from typing import Optional
 from fastapi import FastAPI, Query, responses
@@ -20,7 +20,7 @@ def init_notification():
         isodate = activity["start_date"]
         last_date = datetime.datetime.strptime(isodate, "%Y-%m-%dT%H:%M:%SZ")
         Globals.set_last_activity_date_notify(last_date)
-        total = total + 1
+        total += 1
 
     return total
 
