@@ -110,10 +110,7 @@
             <span>g</span>
         </span>
         <script>
-            async function load(){
-                const response = await fetch('http://localhost:8000/notify');
-                console.log('Hello')
-                const i = await response.json();
+            function  showItemsSuccess(i){
                 document.getElementsByTagName('body')[0].innerHTML = `
                 <div class="card">
                     <div style="border-radius:200px; height:200px; width:200px; background: #40485d; margin:0 auto;">
@@ -122,6 +119,12 @@
                     <h1 style="font-size:30px"><b style="font-size:80px">${i}</b> <br> Activities notify</h1>
                 </div>`;
                 document.title = 'Notify'
+            }
+
+            async function load(){
+                const response = await fetch('http://localhost:8000/notify');
+                const i = await response.json();
+                showItemsSuccess(i);
             }
             load();
         </script>
