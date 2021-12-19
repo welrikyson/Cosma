@@ -2,18 +2,18 @@ import datetime
 import webbrowser
 
 from NotifyActivity import notify_activity
-from Services import ActivityService, TokenService
+from services import activity_service, token_service
 from typing import Optional
 from fastapi import FastAPI, Query, responses
 
 from authentication.token import load_token, save_token
-from Globals import Globals
+from globals import Globals
 
 app = FastAPI()
 
 
 def init_notification():
-    activities_of_today = ActivityService.get_in_today(load_token())
+    activities_of_today = activity_service.get_in_today(load_token())
     total = 0
     for activity in activities_of_today:
         notify_activity(activity)
@@ -36,7 +36,7 @@ async def root():
                 "approval_prompt=force&"
                 "scope=activity:read")
     else:
-        with open(".\\views\\home.html", "r", encoding='utf-8') as f:
+        with open("src/views/home.html", "r", encoding='utf-8') as f:
             home_html = f.read()
         return home_html
 
@@ -49,7 +49,7 @@ async def notify():
 
 @app.get("/auth", response_class=responses.HTMLResponse)
 async def root(code: Optional[str] = Query(None)):
-    token = TokenService.get_token(code)
+    token = token_service.get_token(code)
     save_token(token)
     return responses.RedirectResponse("http://localhost:8000")
 

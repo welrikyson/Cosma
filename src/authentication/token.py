@@ -1,4 +1,4 @@
-from Utils.FileStorege import FileStore
+from src.utils.file_storage import FileStore
 from datetime import datetime
 
 filename = "data.pickle"

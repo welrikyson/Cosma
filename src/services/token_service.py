@@ -2,7 +2,7 @@ import datetime
 
 import requests
 
-from authentication.token import Token
+from src.authentication.token import Token
 
 url = "https://www.strava.com/api/v3/oauth/token"
 
@@ -15,18 +15,7 @@ def get_token(code):
         "code": code,
         "grant_type": "authorization_code"
     }
-
-    response = requests.post(url=url, params=params)
-
-    response_json = response.json()
-    print(response_json)
-    token = Token()
-    token.token = response_json["access_token"]
-    token.refresh_token = response_json["refresh_token"]
-    token.expires_at = datetime.datetime.fromtimestamp(response_json["expires_at"])
-    token.expires_in = response_json["expires_in"]
-    print(token.token)
-    return token
+    return token_request(params)
 
 
 def refresh_token(token: Token):
@@ -36,13 +25,16 @@ def refresh_token(token: Token):
         "grant_type": "refresh_token",
         'refresh_token ': token.refresh_token
     }
+
+    return token_request(params)
+
+
+def token_request(params):
     response = requests.post(url=url, params=params)
     response_json = response.json()
-    print(response_json)
     token = Token()
     token.token = response_json["access_token"]
     token.refresh_token = response_json["refresh_token"]
     token.expires_at = datetime.datetime.fromtimestamp(response_json["expires_at"])
     token.expires_in = response_json["expires_in"]
-    print(token.token)
     return token
