@@ -52,6 +52,3 @@ async def root(code: Optional[str] = Query(None)):
     token = token_service.get_token(code)
     save_token(token)
     return responses.RedirectResponse("http://localhost:8000")
-
-
-webbrowser.open("http://localhost:8000")
