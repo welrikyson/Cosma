@@ -1,13 +1,13 @@
 import datetime
 import webbrowser
 
-from notify_activity import notify_activity
-from services import activity_service, token_service
+from src.notify_activity import notify_activity
+from src.services import activity_service, token_service
 from typing import Optional
 from fastapi import FastAPI, Query, responses
 
-from authentication.token import load_token, save_token
-from globals import Globals
+from src.authentication.token import load_token, save_token
+from src.globals import Globals
 
 app = FastAPI()
 

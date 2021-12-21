@@ -1,4 +1,4 @@
-from utils.file_storage import FileStore
+from src.utils.file_storage import FileStore
 
 filename = "globals.pickle"
 
