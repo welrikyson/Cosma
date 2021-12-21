@@ -32,7 +32,7 @@ async def root():
         return responses.RedirectResponse(
             url="https://www.strava.com/oauth/authorize?"
                 "client_id=75467&response_type=code&"
-                "redirect_uri=http://localhost:8000/auth&"
+                "redirect_uri=https://cosma-croqh.ondigitalocean.app/auth&"
                 "approval_prompt=force&"
                 "scope=activity:read")
     else:
