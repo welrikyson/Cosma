@@ -1,5 +1,4 @@
 import datetime
-import webbrowser
 
 from src.notify_activity import notify_activity
 from src.services import activity_service, token_service

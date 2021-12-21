@@ -13,7 +13,7 @@ def get_in_today(token: Token):
     if last_time is None:
         start_day = datetime.combine(date.today(), time()) .timestamp()
     else:
-        start_day = (last_time - timedelta(hours=2, seconds=59)).timestamp()
+        start_day = (last_time + timedelta(seconds=1)).timestamp()
 
     url = "https://www.strava.com/api/v3/athlete/activities"
     params = {
