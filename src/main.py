@@ -26,22 +26,19 @@ def init_notification():
 
 
 @app.get("/", response_class=responses.HTMLResponse)
-async def root(code: Optional[str] = Query(None)):
-    if code is None:
-        token = load_token()
-        if token is None:
-            return responses.RedirectResponse(
-                url="https://www.strava.com/oauth/authorize?"
-                    "client_id=75467&response_type=code&"
-                    "redirect_uri=https://cosma-croqh.ondigitalocean.app/&"
-                    "approval_prompt=force&"
-                    "scope=activity:read")
-        else:
-            with open("src/views/home.html", "r", encoding='utf-8') as f:
-                home_html = f.read()
-            return home_html
-
-    return auth(code)
+async def root():
+    token = load_token()
+    if token is None:
+        return responses.RedirectResponse(
+            url="https://www.strava.com/oauth/authorize?"
+                "client_id=75467&response_type=code&"
+                "redirect_uri=https://cosma-croqh.ondigitalocean.app/auth&"
+                "approval_prompt=force&"
+                "scope=activity:read")
+    else:
+        with open("src/views/home.html", "r", encoding='utf-8') as f:
+            home_html = f.read()
+        return home_html
 
 
 @app.get("/notify")
@@ -50,7 +47,8 @@ async def notify():
     return total_activities_sync
 
 
-async def auth(code):
+@app.get("/auth", response_class=responses.HTMLResponse)
+async def root(code: Optional[str] = Query(None)):
     token = token_service.get_token(code)
     save_token(token)
     return responses.RedirectResponse("https://cosma-croqh.ondigitalocean.app/")
